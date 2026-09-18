@@ -67,12 +67,11 @@ async function submit() {
     }
   } catch (e) {
     if (e.response?.status === 422) {
-      fieldErrors.value = Object.fromEntries(
-        e.response.data.errors.map((err) => [err.field, err.message]),
-      )
+      const errors = e.response.data.errors ?? []
+      fieldErrors.value = Object.fromEntries(errors.map((err) => [err.field, err.message]))
 
       const formFields = ['title', 'year', 'description', 'isbn', 'author_ids', 'cover']
-      if (!fieldErrors.value.some((err) => formFields.includes(err.field))) {
+      if (!errors.some((err) => formFields.includes(err.field))) {
         formError.value = 'Не удалось сохранить'
       }
     } else {
@@ -143,7 +142,12 @@ onMounted(async () => {
     <div class="field">
       <label for="cover">Обложка</label>
       <input type="file" accept="image/*" id="cover" @change="onFileChange" />
-      <img v-if="currentCoverUrl && !coverFile" alt="Обложка" :src="currentCoverUrl" class="cover-preview" />
+      <img
+        v-if="currentCoverUrl && !coverFile"
+        alt="Обложка"
+        :src="currentCoverUrl"
+        class="cover-preview"
+      />
       <p v-if="fieldErrors.cover" class="form-error">{{ fieldErrors.cover }}</p>
     </div>
 

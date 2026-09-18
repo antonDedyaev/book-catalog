@@ -81,7 +81,7 @@ watch(
     </div>
 
     <div class="add-btn" v-if="auth.isAuthedUser">
-      <button @click="router.push('/authors/create')">Добавить книгу</button>
+      <button @click="router.push('/books/create')">Добавить книгу</button>
     </div>
 
     <div class="results">

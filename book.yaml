@@ -445,6 +445,8 @@ components:
                   type: string
                 role:
                   type: string
+                  enum:
+                    - user
                   example: user
 
     Book:

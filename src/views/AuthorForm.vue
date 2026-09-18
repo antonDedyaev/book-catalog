@@ -31,11 +31,10 @@ async function submit() {
     }
   } catch (e) {
     if (e.response?.status === 422) {
-      fieldErrors.value = Object.fromEntries(
-        e.response.data.errors.map((err) => [err.field, err.message]),
-      )
+      const errors = e.response.data.errors ?? []
+      fieldErrors.value = Object.fromEntries(errors.map((err) => [err.field, err.message]))
 
-      if (!fieldErrors.value.some((err) => err.field === 'full_name')) {
+      if (!errors.some((err) => err.field === 'full_name')) {
         formError.value = 'Не удалось сохранить'
       }
     } else {
